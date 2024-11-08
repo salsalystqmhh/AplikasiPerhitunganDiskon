@@ -1,3 +1,8 @@
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,6 +19,58 @@ public class Tugas3 extends javax.swing.JFrame {
      */
     public Tugas3() {
         initComponents();
+         jComboBox1.setSelectedIndex(0); 
+        jSlider1.setValue(0);  
+
+        // Action listener untuk tombol hitung
+        jButton1.addActionListener(evt -> hitungDiskon());
+    }
+
+    private void hitungDiskon() {
+        // Daftar kupon valid beserta diskonnya
+        Map<String, Double> daftarKupon = new HashMap<>();
+        daftarKupon.put("DISKON10", 10.0);
+        daftarKupon.put("DISKON20", 20.0);
+        daftarKupon.put("DISKON50", 50.0);
+
+        // Ambil input dari JTextField kupon
+        String kuponText = jTextField2.getText().trim();
+        double kuponDiskon = 0;
+
+        if (!kuponText.isEmpty()) {
+            if (daftarKupon.containsKey(kuponText)) {
+                kuponDiskon = daftarKupon.get(kuponText);
+                JOptionPane.showMessageDialog(null, "Kupon valid! Diskon " + kuponDiskon + "% diterapkan.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Kupon tidak valid! Tidak ada diskon yang diterapkan.");
+            }
+        }
+
+        // Diskon tambahan dari ComboBox atau Slider
+        double diskonTambahan = 0;
+        String selectedItem = (String) jComboBox1.getSelectedItem();
+        if (selectedItem != null && !selectedItem.equals("Pilih Diskon")) {
+            diskonTambahan = Double.parseDouble(selectedItem);
+        } else {
+            diskonTambahan = jSlider1.getValue();
+        }
+
+        // Hitung total diskon
+        double totalDiskon = Math.min(kuponDiskon + diskonTambahan, 100);
+        
+        // Ambil harga asli dan hitung potongan serta harga akhir
+        double hargaAsli = Double.parseDouble(jTextField1.getText());
+        double potonganHarga = hargaAsli * (totalDiskon / 100);
+        double hargaAkhir = hargaAsli - potonganHarga;
+
+        // Tampilkan hasil
+        jLabel6.setText(String.format("Potongan Harga   = Rp %.2f", potonganHarga));
+        jLabel5.setText(String.format("Harga Akhir          = Rp %.2f", hargaAkhir));
+
+        // Tambahkan riwayat transaksi
+        String riwayat = String.format("Harga Asli: Rp %.2f, Kupon Diskon: %.2f%%, Diskon Tambahan: %.2f%%, Harga Akhir: Rp %.2f\n", 
+                                        hargaAsli, kuponDiskon, diskonTambahan, hargaAkhir);
+        jTextArea1.append(riwayat);
     }
 
     /**
@@ -68,6 +125,11 @@ public class Tugas3 extends javax.swing.JFrame {
         jSlider1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jButton1.setText("Hitung");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -167,16 +229,16 @@ public class Tugas3 extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(107, 107, 107)
+                        .addGap(141, 141, 141)
                         .addComponent(jLabel1)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGap(27, 27, 27)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -187,6 +249,10 @@ public class Tugas3 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,10 +282,8 @@ public class Tugas3 extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Tugas3().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Tugas3().setVisible(true);
         });
     }
 
