@@ -199,6 +199,7 @@ public class Tugas3 extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 153));
 
+        jLabel7.setFont(new java.awt.Font("DialogInput", 0, 12)); // NOI18N
         jLabel7.setText("Riwayat Diskon Anda");
 
         jTextArea1.setColumns(20);
@@ -223,7 +224,7 @@ public class Tugas3 extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Garamond", 0, 18)); // NOI18N
