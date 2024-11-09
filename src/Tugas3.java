@@ -25,53 +25,65 @@ public class Tugas3 extends javax.swing.JFrame {
         // Action listener untuk tombol hitung
         jButton1.addActionListener(evt -> hitungDiskon());
     }
-
     private void hitungDiskon() {
-        // Daftar kupon valid beserta diskonnya
-        Map<String, Double> daftarKupon = new HashMap<>();
-        daftarKupon.put("DISKON10", 10.0);
-        daftarKupon.put("DISKON20", 20.0);
-        daftarKupon.put("DISKON50", 50.0);
+    // Daftar kupon valid beserta diskonnya
+    Map<String, Double> daftarKupon = new HashMap<>();
+    daftarKupon.put("DISKON10", 10.0);
+    daftarKupon.put("DISKON20", 20.0);
+    daftarKupon.put("DISKON50", 50.0);
+    // Daftar kupon diskon tambahan
+    Map<String, Double> daftarKuponTambahan = new HashMap<>();
+    daftarKuponTambahan.put("DISKON15", 15.0);
+    daftarKuponTambahan.put("DISKON25", 25.0);
 
-        // Ambil input dari JTextField kupon
-        String kuponText = jTextField2.getText().trim();
-        double kuponDiskon = 0;
+    // Ambil input dari JTextField kupon
+    String kuponText = jTextField2.getText().trim();
+    double kuponDiskon = 0;
 
-        if (!kuponText.isEmpty()) {
-            if (daftarKupon.containsKey(kuponText)) {
-                kuponDiskon = daftarKupon.get(kuponText);
-                JOptionPane.showMessageDialog(null, "Kupon valid! Diskon " + kuponDiskon + "% diterapkan.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Kupon tidak valid! Tidak ada diskon yang diterapkan.");
-            }
-        }
-
-        // Diskon tambahan dari ComboBox atau Slider
-        double diskonTambahan = 0;
-        String selectedItem = (String) jComboBox1.getSelectedItem();
-        if (selectedItem != null && !selectedItem.equals("Pilih Diskon")) {
-            diskonTambahan = Double.parseDouble(selectedItem);
+    if (!kuponText.isEmpty()) {
+        if (daftarKupon.containsKey(kuponText)) {
+            kuponDiskon = daftarKupon.get(kuponText);
+            JOptionPane.showMessageDialog(null, "Kupon valid! Diskon " + kuponDiskon + "% diterapkan.");
         } else {
-            diskonTambahan = jSlider1.getValue();
+            JOptionPane.showMessageDialog(null, "Kupon tidak valid! Tidak ada diskon yang diterapkan.");
         }
-
-        // Hitung total diskon
-        double totalDiskon = Math.min(kuponDiskon + diskonTambahan, 100);
-        
-        // Ambil harga asli dan hitung potongan serta harga akhir
-        double hargaAsli = Double.parseDouble(jTextField1.getText());
-        double potonganHarga = hargaAsli * (totalDiskon / 100);
-        double hargaAkhir = hargaAsli - potonganHarga;
-
-        // Tampilkan hasil
-        jLabel6.setText(String.format("Potongan Harga   = Rp %.2f", potonganHarga));
-        jLabel5.setText(String.format("Harga Akhir          = Rp %.2f", hargaAkhir));
-
-        // Tambahkan riwayat transaksi
-        String riwayat = String.format("Harga Asli: Rp %.2f, Kupon Diskon: %.2f%%, Diskon Tambahan: %.2f%%, Harga Akhir: Rp %.2f\n", 
-                                        hargaAsli, kuponDiskon, diskonTambahan, hargaAkhir);
-        jTextArea1.append(riwayat);
     }
+
+    // Diskon tambahan dari ComboBox atau Slider
+    double diskonTambahan = 0;
+    String selectedItem = (String) jComboBox1.getSelectedItem();
+    if (selectedItem != null && !selectedItem.equals("Pilih Diskon")) {
+        diskonTambahan = Double.parseDouble(selectedItem);
+    } else {
+        diskonTambahan = jSlider1.getValue();
+    }
+
+    // Diskon tambahan berdasarkan kupon diskon tambahan
+    String kuponTambahanText = jTextField2.getText().trim();
+    if (!kuponTambahanText.isEmpty() && daftarKuponTambahan.containsKey(kuponTambahanText)) {
+        double kuponTambahanDiskon = daftarKuponTambahan.get(kuponTambahanText);
+        diskonTambahan += kuponTambahanDiskon;
+        JOptionPane.showMessageDialog(null, "Kupon diskon tambahan valid! Diskon " + kuponTambahanDiskon + "% diterapkan.");
+    }
+
+    // Hitung total diskon
+    double totalDiskon = Math.min(kuponDiskon + diskonTambahan, 100);
+    
+    // Ambil harga asli dan hitung potongan serta harga akhir
+    double hargaAsli = Double.parseDouble(jTextField1.getText());
+    double potonganHarga = hargaAsli * (totalDiskon / 100);
+    double hargaAkhir = hargaAsli - potonganHarga;
+
+    // Tampilkan hasil
+    jLabel6.setText(String.format("Potongan Harga   = Rp %.2f", potonganHarga));
+    jLabel5.setText(String.format("Harga Akhir          = Rp %.2f", hargaAkhir));
+
+    // Tambahkan riwayat transaksi
+    String riwayat = String.format("Harga Asli: Rp %.2f, Kupon Diskon: %.2f%%, Diskon Tambahan: %.2f%%, Harga Akhir: Rp %.2f\n", 
+                                    hargaAsli, kuponDiskon, diskonTambahan, hargaAkhir);
+    jTextArea1.append(riwayat);
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,7 +122,7 @@ public class Tugas3 extends javax.swing.JFrame {
 
         jLabel3.setText("Masukkan Kupon Diskon");
 
-        jLabel4.setText("Dsikon");
+        jLabel4.setText("Diskon");
 
         jLabel5.setText("Harga Akhir              = ");
 
