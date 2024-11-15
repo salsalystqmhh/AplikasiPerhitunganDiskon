@@ -48,7 +48,7 @@ Aplikasi Perhitungan Diskon memiliki fitur-fitur berikut:
 - **Riwayat Transaksi**: Menampilkan hasil perhitungan diskon pada area teks sebagai riwayat.
 
 ## Demo
-
+![Demo GIF](img/tugas3.gif)
 
 note : Aplikasi ini dirancang untuk memudahkan pengguna dalam menghitung harga akhir setelah diskon dengan berbagai kombinasi kupon dan diskon tambahan.
 
